@@ -94,25 +94,29 @@ class App extends React.Component {
     return (
       <div className="app">
         <h1>25 + 5 Clock</h1>
-        <Session
-          type="break"
-          time={this.formatTime(this.state.breakLength)}
-          handleClick={this.handleBreak}
-        />
-        <Session
-          type="session"
-          time={this.formatTime(this.state.sessionLength)}
-          handleClick={this.handleSession}
-        />
+        <div className="flex-row full-width flex-center">
+          <Session
+            type="break"
+            time={this.formatTime(this.state.breakLength)}
+            handleClick={this.handleBreak}
+          />
+          <Session
+            type="session"
+            time={this.formatTime(this.state.sessionLength)}
+            handleClick={this.handleSession}
+          />
+        </div>
         <div className="timer-wrapper">
           <h2 id="timer-label">Session</h2>
-          <p>{this.formatTime(this.state.timeLeft)}</p>
-          <button id="start_stop" onClick={this.controlSession}>
-            ||
-          </button>
-          <button id="reset" onClick={this.reset}>
-            O
-          </button>
+          <p id="actual-time-left">{this.formatTime(this.state.timeLeft)}</p>
+          <div className="button-wrapper">
+            <button id="start_stop" onClick={this.controlSession}>
+              <span className="material-symbols-outlined">play_pause</span>
+            </button>
+            <button id="reset" onClick={this.reset}>
+              <span className="material-symbols-outlined">restart_alt</span>
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -126,20 +130,22 @@ class Session extends React.Component {
   render() {
     return (
       <div className="session-wrapper">
-        <h2 id={this.props.type + "-label"}>{this.props.type + " Length"}</h2>
+        <h3 id={this.props.type + "-label"}>{this.props.type + " Length"}</h3>
         <p id={this.props.type + "-length"}>{this.props.time}</p>
-        <button
-          id={this.props.type + "-decrement"}
-          onClick={() => this.props.handleClick(-60)} //Decrement a minute
-        >
-          <i className="bi bi-arrow-down-square-fill"></i>
-        </button>
-        <button
-          id={this.props.type + "-increment"}
-          onClick={() => this.props.handleClick(60)} //Increment a minute
-        >
-          <i className="bi bi-arrow-up-square-fill"></i>
-        </button>
+        <div className="button-wrapper">
+          <button
+            id={this.props.type + "-decrement"}
+            onClick={() => this.props.handleClick(-60)} //Decrement a minute
+          >
+            <span className="material-symbols-outlined">arrow_downward</span>
+          </button>
+          <button
+            id={this.props.type + "-increment"}
+            onClick={() => this.props.handleClick(60)} //Increment a minute
+          >
+            <span className="material-symbols-outlined">arrow_upward</span>
+          </button>
+        </div>
       </div>
     );
   }
