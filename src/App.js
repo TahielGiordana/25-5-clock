@@ -18,7 +18,7 @@ class App extends React.Component {
     this.handleBreak = this.handleBreak.bind(this);
     this.handleSession = this.handleSession.bind(this);
     this.reset = this.reset.bind(this);
-    this.controlSession = this.controlSession.bind(this);
+    // this.controlSession = this.controlSession.bind(this);
     this.handlePause = this.handlePause.bind(this);
   }
 
@@ -80,27 +80,19 @@ class App extends React.Component {
     this.setState(
       {
         isPaused: !this.state.isPaused,
-        intervalID: null,
       },
       () => {
-        this.controlSession();
+        this.setState({ intervalID: this.controlTime() });
       }
     );
   }
 
-  controlSession() {
-    if (this.state.isPaused === false) {
+  controlTime() {
+    clearInterval(this.state.intervalID);
+    if (!this.state.isPaused) {
       let interval = setInterval(() => {
         if (this.state.timeLeft > 0) {
-          this.setState(
-            {
-              timeLeft: this.state.timeLeft - 1,
-              intervalID: interval,
-            },
-            () => {
-              return;
-            }
-          );
+          this.setState({ timeLeft: this.state.timeLeft - 1 });
         } else {
           this.setState({
             timeLeft: this.state.breakLength * 60,
@@ -110,7 +102,9 @@ class App extends React.Component {
           audio.play();
         }
       }, 1000);
+      return interval;
     }
+    return null;
   }
 
   render() {
